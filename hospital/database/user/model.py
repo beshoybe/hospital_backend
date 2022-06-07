@@ -9,6 +9,9 @@ class User(db.Model):
     password = db.Column(db.String(100))
     phone = db.Column(db.String(14),unique=True)
     photo = db.Column(db.String(150),default = '')
+    radiology = relationship('Radiology')
+    report = relationship('Report')
+
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')
     def check_password(self, password):
@@ -22,5 +25,3 @@ class User(db.Model):
         self.email = data['email']
         self.password = data['password']
         self.phone = data['phone']
-    def __repr__(self):
-        return '' %self.orders

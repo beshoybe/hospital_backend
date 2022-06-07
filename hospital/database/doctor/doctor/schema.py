@@ -9,7 +9,8 @@ class DoctorSchema(SQLAlchemySchema):
         sqla_session = db.session
     id = fields.Number(dump_only=True)
     name = fields.String(required=True)
-    email = fields.String(required=True)
     password = fields.String(required=True)
-    phone = fields.String(required=True)
     photo = fields.String()
+    specialize = fields.String(required=True)
+    price =  fields.Float(required=True)
+    bio = fields.String()

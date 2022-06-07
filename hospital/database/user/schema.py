@@ -13,4 +13,4 @@ class UserSchema(SQLAlchemySchema):
     password = fields.String(required=True)
     phone = fields.String(required=True)
     photo = fields.String()
-    orders = fields.Nested('OrderSchema',many=True)
+    radiology = fields.Nested('OrderSchema',many=True)

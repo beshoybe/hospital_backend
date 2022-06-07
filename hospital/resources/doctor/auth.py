@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from flask import jsonify, make_response, request
 from flask_jwt_extended import create_access_token
 from flask_restful import Resource
@@ -27,9 +27,9 @@ class DoctorLoginApi(Resource):
     def post(self):
         try:
             data = request.get_json()
-            if ('email' not in data) | ('password' not in data):
+            if ('id' not in data) | ('password' not in data):
                 raise ValidationError
-            doctor =  doctor.query.filter(doctor.email==data['email']).first()
+            doctor =  Doctor.query.filter(Doctor.email==data['id']).first()
             if not doctor:
                 raise UserNotFoundError
             authorized = doctor.check_password(data['password'])
@@ -37,7 +37,7 @@ class DoctorLoginApi(Resource):
                 raise UserNotAuthorizedError
             expires = datetime.timedelta(days=1000)
             access_token = create_access_token(identity=str(doctor.id), expires_delta=expires)
-            doctor_schema = DoctorSchema(only=('name','email','id'))
+            doctor_schema = DoctorSchema(only=('name','id'))
             doctor_schema = doctor_schema.dump(doctor)
             doctor_schema['token']= access_token
             return make_response({'message':'Login Succesfully','data':doctor_schema},200)
